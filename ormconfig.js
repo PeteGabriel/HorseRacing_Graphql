@@ -5,12 +5,12 @@ module.exports = [
     database: "database.sqlite",
     synchronize: true,
     logging: true,
-    entities: ["src/entity/**/*.ts"],
-    migrations: ["src/migration/**/*.ts"],
+    entities: ["src/models/**/*.ts"],
+    migrations: ["src/migrations/**/*.ts"],
     subscribers: ["src/subscriber/**/*.ts"],
     cli: {
-      entitiesDir: "src/entity",
-      migrationsDir: "src/migration",
+      entitiesDir: "src/models",
+      migrationsDir: "src/migrations",
       subscribersDir: "src/subscriber"
     }
   },
@@ -20,12 +20,12 @@ module.exports = [
     url: process.env.DATABASE_URL,
     synchronize: true, // switch this to false once you have the initial tables created and use migrations instead
     logging: false,
-    entities: ["dist/entity/**/*.js"],
-    migrations: ["dist/migration/**/*.js"],
+    entities: ["dist/models/**/*.js"],
+    migrations: ["dist/migrations/**/*.js"],
     subscribers: ["dist/subscriber/**/*.js"],
     cli: {
-      entitiesDir: "dist/entity",
-      migrationsDir: "dist/migration",
+      entitiesDir: "dist/models",
+      migrationsDir: "dist/migrations",
       subscribersDir: "dist/subscriber"
     }
   }
