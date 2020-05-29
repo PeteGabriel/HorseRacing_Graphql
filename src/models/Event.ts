@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm";
 
 @Entity()
 export class Event {
@@ -12,7 +12,7 @@ export class Event {
   @Column()
   sportId: number;
 
-  @Column()
+  @CreateDateColumn()
   startTime: Date;
 
   @Column()

@@ -1,4 +1,4 @@
-import { Query, Resolver } from "type-graphql";
+import { Query, Resolver, Arg, Int } from "type-graphql";
 import {getCustomRepository} from "typeorm";
 import { EventType } from '../types/EventType';
 import { EventsRepository } from "../dal/EventsRepository";
@@ -15,5 +15,11 @@ export class EventsResolver {
   events(){
     return this.repo.all()
   }
+
+  @Query(() => EventType, { nullable: true })
+  event(@Arg("eventId", _type => Int) eventId: number){
+    return this.repo.get(eventId)
+  }
+
 
 }
