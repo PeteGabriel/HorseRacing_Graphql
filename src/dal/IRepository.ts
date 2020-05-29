@@ -4,4 +4,6 @@ export interface IRepository<T>{
 
   get(id: number): Promise<T | undefined>
 
+  findBy(id: number): Promise<T[]>
+
 }
