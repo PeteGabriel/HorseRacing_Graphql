@@ -19,7 +19,7 @@ export class Market {
   @Column()
   status: number;
   
-  @OneToMany(_ => Outcome, outcome => outcome.marketId)
+  @OneToMany(_type => Outcome, outcome => outcome.market)
   outcomes: Outcome[];
 
 }

@@ -5,13 +5,18 @@ import { EventsRepository } from "../dal/EventsRepository";
 import { MarketRepository } from "../dal/MarketsRepository";
 import { IRepository } from "../dal/IRepository";
 import { Market } from "../models/Market";
+import { Outcome } from "../models/Outcome";
+import { OutcomeRepository } from "../dal/OutcomesRepository";
 
 @Resolver(EventType)
 export class EventsResolver {
   
-  constructor(private eventsRepo: IRepository<Event>, private marketsRepo: IRepository<Market>) {
+  constructor(private eventsRepo: IRepository<Event>, 
+    private marketsRepo: IRepository<Market>,
+    private outcomesRepo: IRepository<Outcome>) {
     this.eventsRepo = eventsRepo || getCustomRepository(EventsRepository);
     this.marketsRepo = marketsRepo || getCustomRepository(MarketRepository);
+    this.outcomesRepo = outcomesRepo || getCustomRepository(OutcomeRepository);
   }
  
   /**
@@ -30,10 +35,18 @@ export class EventsResolver {
    * @param event The respective root object
    */
   @FieldResolver()
-  markets(@Root() event: EventType) {
-    return this.marketsRepo.findBy(event.eventId)
+  async markets(@Root() event: EventType) {
+    let mkts = await this.marketsRepo.findBy(event.eventId)
+
+    /*
+    for (const mkt of mkts){
+      mkt.outcomes = await this.outcomesRepo.findBy(mkt.id);
+    }*/
+
+    await Promise.all(mkts.map(async (mkt) => {
+      mkt.outcomes = await this.outcomesRepo.findBy(mkt.id)
+    }));
+    return mkts
   }
-
-
 
 }

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, ManyToOne } from "typeorm";
+import { Market } from "./Market";
 
 @Entity()
 export class Outcome {
@@ -27,4 +28,6 @@ export class Outcome {
   @Column()
   form: string;
 
+  @ManyToOne(_type => Market, market => market.outcomes)
+  market: Market;
 }
