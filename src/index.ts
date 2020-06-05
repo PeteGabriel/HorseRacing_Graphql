@@ -27,6 +27,7 @@ import * as dotenv from 'dotenv';
       resolvers: [EventsResolver],
       validate: true
     }),
+    introspection: process.env.NODE_ENV == "production",
     context: ({ req, res }) => ({ req, res })
   });
 
