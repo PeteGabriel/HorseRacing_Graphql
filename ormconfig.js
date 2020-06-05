@@ -18,15 +18,15 @@ module.exports = [
     name: "production",
     type: "postgres",
     url: process.env.DATABASE_URL,
-    synchronize: true, // switch this to false once you have the initial tables created and use migrations instead
-    logging: false,
-    entities: ["dist/models/**/*.js"],
-    migrations: ["dist/migrations/**/*.js"],
-    subscribers: ["dist/subscriber/**/*.js"],
+    synchronize: false, // switch this to false once you have the initial tables created and use migrations instead
+    logging: true,
+    entities: ["src/models/**/*.js"],
+    migrations: ["src/migrations/**/*.js"],
+    subscribers: ["src/subscriber/**/*.js"],
     cli: {
-      entitiesDir: "dist/models",
-      migrationsDir: "dist/migrations",
-      subscribersDir: "dist/subscriber"
+      entitiesDir: "src/models",
+      migrationsDir: "src/migrations",
+      subscribersDir: "src/subscriber"
     }
   }
 ];
