@@ -27,7 +27,7 @@ import * as dotenv from 'dotenv';
   apolloServer.applyMiddleware({ app, cors: false });
   const port = process.env.PORT || 4000;
 
-  app.get('/', (_req, res) => {
+  app.get('/graphiql', (_req, res) => {
     res.sendFile(path.join(__dirname + '/static/index.html'));
   })
 
