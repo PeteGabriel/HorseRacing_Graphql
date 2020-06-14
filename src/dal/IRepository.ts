@@ -6,4 +6,6 @@ export interface IRepository<T>{
 
   findBy(id: number): Promise<T[]>
 
+  add(data: T): Promise<boolean>
+
 }

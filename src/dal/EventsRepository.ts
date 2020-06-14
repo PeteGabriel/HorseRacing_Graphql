@@ -5,6 +5,15 @@ import { IRepository } from "./IRepository";
 @EntityRepository(Event)
 export class EventsRepository extends Repository<Event> implements IRepository<Event>{
   
+  async add(data: Event): Promise<boolean> {
+    let res = await this.insert(data)
+    if (res){
+      console.log(res)
+      return true;
+    }
+    return false;
+  }
+
   findBy(_id: number): Promise<Event[]> {
     throw new Error("Method not implemented.");
   }

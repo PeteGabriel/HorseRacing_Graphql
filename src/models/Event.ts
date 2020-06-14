@@ -3,6 +3,11 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeor
 @Entity()
 export class Event {
 
+  constructor(eId: number, sId: number) {
+    this.eventId = eId
+    this.sportId = sId
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
