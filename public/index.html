@@ -27,7 +27,7 @@
           body: JSON.stringify(graphQLParams),
         })
           .then(response => response.json())
-          .catch(() => response.text());
+          .catch((err) => console.log(err));
       ReactDOM.render(
         React.createElement(GraphiQL, { fetcher: graphQLFetcher }),
         document.getElementById('graphiql'),

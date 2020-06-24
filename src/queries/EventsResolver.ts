@@ -21,6 +21,18 @@ export class EventsResolver {
     this.outcomesRepo = outcomesRepo || getCustomRepository(OutcomeRepository);
   }
  
+
+  /**
+   * Query an event by eventID field.
+   * 
+   * @param eventId Id of the event requested.
+   */
+  @Query(() => [EventType], { nullable: true })
+  events(){
+    return this.eventsRepo.all()
+  }
+
+
   /**
    * Query an event by eventID field.
    * 
