@@ -29,9 +29,5 @@ export class Event {
   @Column()
   length: string;
 
-  getDescription(){
-    //TODO format startTime
-    return `${this.raceName} - ${this.startTime}`
-  }
 
 }

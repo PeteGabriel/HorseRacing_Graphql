@@ -23,6 +23,9 @@ export class EventType {
   startTime: Date;
 
   @Field()
+  description: String;
+
+  @Field()
   raceName: string;
 
   @Field({ nullable: true })
@@ -31,8 +34,6 @@ export class EventType {
   @Field({ nullable: true })
   length: string;
 
-  //TODO add description
-
   @Field(_type => [MarketType], { nullable: true })
   markets: MarketType[];
 
@@ -40,5 +41,9 @@ export class EventType {
     let evt = new EventType(data.eventId, data.sportId, data.raceName, data.length)
     evt.startTime = new Date()
     return evt
+  }
+
+  getTimeDescription() {
+    return `${this.raceName} - ${this.startTime.toLocaleString()}`
   }
 }

@@ -44,6 +44,15 @@ export class EventsResolver {
   }
 
   /**
+   * Resolve the field 'description' by using the behavior from EventType.
+   * 
+   */
+  @FieldResolver()
+  description(@Root() event: EventType) {
+    return event.getTimeDescription()
+  }
+
+  /**
    * Resolve the complex field 'markets' for a certain event.
    * 
    * @param event The respective root object
