@@ -21,4 +21,8 @@ export class OutcomeRepository extends Repository<Outcome> implements IRepositor
     return await this.find({marketId})
   }
 
+  async deleteBy(_eventId: number): Promise<Boolean> {
+    throw new Error("Method not implemented."); 
+  }
+
 }

@@ -5,6 +5,18 @@ import { IRepository } from "./IRepository";
 @EntityRepository(Event)
 export class EventsRepository extends Repository<Event> implements IRepository<Event>{
   
+  async deleteBy(eventId: number): Promise<Boolean> {
+    let evt = await this.findOne({eventId})
+    if (evt){
+      let removed = await this.remove(evt)
+      if (removed){
+        return true
+      }
+      return false
+    }
+    return false
+  }
+
   async add(data: Event): Promise<boolean> {
     let res = await this.insert(data)
     if (res){

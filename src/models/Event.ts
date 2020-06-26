@@ -8,6 +8,21 @@ export class Event {
     this.sportId = sId
   }
 
+  withRaceName(name: string): this {
+    this.raceName = name
+    return this
+  }
+
+  withLength(length: string): this {
+    this.length = length
+    return this
+  }
+
+  withGoing(going: string): this {
+    this.going = going
+    return this
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 

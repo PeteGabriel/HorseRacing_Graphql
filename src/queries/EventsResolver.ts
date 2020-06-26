@@ -75,11 +75,20 @@ export class EventsResolver {
   @Mutation(_returns => EventType)
   async addEvent(@Arg("event") input: EventInput): Promise<EventType> {
     let evt = new Event(input.eventId, input.sportId)
-    evt.raceName = input.raceName
-    evt.length = input.length
-    evt.going = input.going
-    await this.eventsRepo.add(evt)
+      .withRaceName(input.raceName)
+      .withLength(input.length)
+      .withGoing(input.going)
+    try {
+      await this.eventsRepo.add(evt)
+    }catch(e){
+      throw new Error("Error trying to add new Event")
+    }
     return EventType.FromModel(evt)
+  }
+
+  @Mutation(_returns => Boolean)
+  async deleteEvent(@Arg("eventId") id: number): Promise<Boolean> {
+    return await this.eventsRepo.deleteBy(id)
   }
 
 }
