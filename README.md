@@ -27,8 +27,8 @@ query {
         "raceName": "Newcastle",
         "going": "Soft",
         "length": "1m 3f"
-      },
-    ...
+      }
+    ]
   }
 }
 ```
