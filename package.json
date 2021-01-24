@@ -22,7 +22,7 @@
     "typeorm": "0.2.20"
   },
   "scripts": {
-    "build-ts": "tsc -p",
+    "build-ts": "tsc",
     "postinstall": "npm run build-ts",
     "start": "npm run serve",
     "serve": "node dist/index.js",
