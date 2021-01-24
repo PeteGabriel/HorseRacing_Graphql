@@ -7,8 +7,8 @@ import {EventsResolver} from "./queries/EventsResolver";
 import * as dotenv from 'dotenv';
 
 (async () => {
-  const app = express();
   dotenv.config()
+  const app = express();
   app.use(express.static('public'))
 
   const options = await getConnectionOptions(

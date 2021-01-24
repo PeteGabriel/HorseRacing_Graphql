@@ -1,29 +1,33 @@
 import { Event } from "./../models/Event";
 import {Repository, EntityRepository} from "typeorm";
 import { IRepository } from "./IRepository";
+import {ApiGateway} from "./ApiGateway";
+
 
 @EntityRepository(Event)
 export class EventsRepository extends Repository<Event> implements IRepository<Event>{
-  
+
+  gateway: ApiGateway
+
+  constructor() {
+    super();
+
+    //TODO inject this dependency
+    this.gateway = new ApiGateway()
+  }
+
   async deleteBy(eventId: number): Promise<Boolean> {
     let evt = await this.findOne({eventId})
     if (evt){
-      let removed = await this.remove(evt)
-      if (removed){
-        return true
-      }
-      return false
+      await this.remove(evt)
+      return true
     }
     return false
   }
 
   async add(data: Event): Promise<boolean> {
     let res = await this.insert(data)
-    if (res){
-      console.log(res)
-      return true;
-    }
-    return false;
+    return res != undefined
   }
 
   findBy(_id: number): Promise<Event[]> {
@@ -35,6 +39,22 @@ export class EventsRepository extends Repository<Event> implements IRepository<E
   }
 
   async all(): Promise<Event[]>{
-    return await this.find()
+    const fromDb = await this.find()
+    if (fromDb.length == 0){
+      const resp = await this.gateway.getEvents()
+
+      const parsedBody = JSON.parse(resp)
+      for (const elem of parsedBody) {
+        let evt = new Event(elem.id_race, 100)
+        evt.going = elem.going
+        evt.raceName = elem.title
+        evt.length = elem.distance
+        await this.add(evt)
+      }
+
+      return parsedBody
+    }
+
+    return fromDb
   }
 }

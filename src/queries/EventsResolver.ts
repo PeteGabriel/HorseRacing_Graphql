@@ -23,9 +23,7 @@ export class EventsResolver {
  
 
   /**
-   * Query an event by eventID field.
-   * 
-   * @param eventId Id of the event requested.
+   * Query an events.
    */
   @Query(() => [EventType], { nullable: true })
   events(){
