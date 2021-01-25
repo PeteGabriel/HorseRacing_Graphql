@@ -2,23 +2,15 @@ import { Query, Resolver, Arg, Int, Root, FieldResolver, Mutation } from "type-g
 import {getCustomRepository} from "typeorm";
 import { EventType } from '../types/EventType';
 import { EventsRepository } from "../dal/EventsRepository";
-import { MarketRepository } from "../dal/MarketsRepository";
 import { IRepository } from "../dal/IRepository";
-import { Market } from "../models/Market";
 import { Event } from "../models/Event";
-import { Outcome } from "../models/Outcome";
-import { OutcomeRepository } from "../dal/OutcomesRepository";
 import EventInput from "../types/inputs/EventInput";
 
 @Resolver(EventType)
 export class EventsResolver {
   
-  constructor(private eventsRepo: IRepository<Event>, 
-    private marketsRepo: IRepository<Market>,
-    private outcomesRepo: IRepository<Outcome>) {
+  constructor(private eventsRepo: IRepository<Event>) {
     this.eventsRepo = eventsRepo || getCustomRepository(EventsRepository);
-    this.marketsRepo = marketsRepo || getCustomRepository(MarketRepository);
-    this.outcomesRepo = outcomesRepo || getCustomRepository(OutcomeRepository);
   }
  
 
@@ -48,26 +40,6 @@ export class EventsResolver {
   @FieldResolver()
   description(@Root() event: EventType) {
     return event.getTimeDescription()
-  }
-
-  /**
-   * Resolve the complex field 'markets' for a certain event.
-   * 
-   * @param event The respective root object
-   */
-  @FieldResolver()
-  async markets(@Root() event: EventType) {
-    let mkts = await this.marketsRepo.findBy(event.eventId)
-
-    /*
-    for (const mkt of mkts){
-      mkt.outcomes = await this.outcomesRepo.findBy(mkt.id);
-    }*/
-
-    await Promise.all(mkts.map(async (mkt) => {
-      mkt.outcomes = await this.outcomesRepo.findBy(mkt.id)
-    }));
-    return mkts
   }
 
   @Mutation(_returns => EventType)
