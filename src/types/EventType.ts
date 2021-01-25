@@ -23,10 +23,13 @@ export class EventType {
   startTime: Date;
 
   @Field()
-  description: String;
+  description: string;
 
   @Field()
   raceName: string;
+
+  @Field()
+  course: string;
 
   @Field({ nullable: true })
   going: string;

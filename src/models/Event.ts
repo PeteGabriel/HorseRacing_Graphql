@@ -13,6 +13,11 @@ export class Event {
     return this
   }
 
+  withCourse(course: string): this {
+    this.course = course
+    return this
+  }
+
   withLength(length: string): this {
     this.length = length
     return this
@@ -37,6 +42,9 @@ export class Event {
 
   @Column()
   raceName: string;
+
+  @Column()
+  course: string;
 
   @Column()
   going: string;

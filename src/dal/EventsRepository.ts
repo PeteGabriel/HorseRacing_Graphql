@@ -46,15 +46,14 @@ export class EventsRepository extends Repository<Event> implements IRepository<E
       const parsedBody = JSON.parse(resp)
       for (const elem of parsedBody) {
         let evt = new Event(elem.id_race, 100)
-        evt.going = elem.going
-        evt.raceName = elem.title
-        evt.length = elem.distance
+            .withCourse(elem.course)
+            .withGoing(elem.going)
+            .withRaceName(elem.title)
+            .withLength(elem.distance)
         await this.add(evt)
       }
-
-      return parsedBody
+      return await this.find()
     }
-
     return fromDb
   }
 }

@@ -14,6 +14,9 @@ export default class EventInput implements Partial<Event>{
   raceName: string;
 
   @Field()
+  course: string;
+
+  @Field()
   going: string;
 
   @Field()

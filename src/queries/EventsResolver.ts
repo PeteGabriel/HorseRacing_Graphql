@@ -74,6 +74,7 @@ export class EventsResolver {
   async addEvent(@Arg("event") input: EventInput): Promise<EventType> {
     let evt = new Event(input.eventId, input.sportId)
       .withRaceName(input.raceName)
+      .withCourse(input.course)
       .withLength(input.length)
       .withGoing(input.going)
     try {
