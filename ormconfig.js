@@ -1,10 +1,14 @@
 module.exports = [
   {
     name: "development",
-    type: "sqlite",
-    database: "database.sqlite",
-    synchronize: true,
+    type: "mysql",
+    host: "localhost",
+    port: 8001,
+    username: "root",
+    password: "secretpassword",
+    database:"hracing",
     logging: true,
+    synchronize: true,
     entities: ["src/models/**/*.ts"],
     migrations: ["src/migrations/**/*.ts"],
     subscribers: ["src/subscriber/**/*.ts"],
@@ -16,17 +20,18 @@ module.exports = [
   },
   {
     name: "production",
-    type: "postgres",
-    url: process.env.DATABASE_URL,
-    synchronize: false, // switch this to false once you have the initial tables created and use migrations instead
+    type: "mysql",
+    host: process.env.HOST,
+    port: process.env.MSQ_PORT,
+    username: process.env.MSQ_USER,
+    password: process.env.MSQ_PASSWORD,
+    database: process.env.DATABASE,
+    autoReconnect: true,
+    synchronize: true, // switch this to false once you have the initial tables created and use migrations instead
     logging: true,
-    entities: ["src/models/**/*.js"],
-    migrations: ["src/migrations/**/*.js"],
-    subscribers: ["src/subscriber/**/*.js"],
+    entities: ["dist/models/**/*.js"],
     cli: {
-      entitiesDir: "src/models",
-      migrationsDir: "src/migrations",
-      subscribersDir: "src/subscriber"
+      entitiesDir: "dist/models"
     }
   }
 ];
