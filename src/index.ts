@@ -28,7 +28,7 @@ import * as dotenv from 'dotenv';
       validate: true
     }),
     playground: true,
-    introspection: process.env.NODE_ENV == "production",
+    introspection: true,
     context: ({ req, res }) => ({ req, res })
   });
 

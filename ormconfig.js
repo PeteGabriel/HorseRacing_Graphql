@@ -1,14 +1,10 @@
 module.exports = [
   {
     name: "development",
-    type: "mysql",
-    host: "localhost",
-    port: 8001,
-    username: "root",
-    password: "secretpassword",
-    database:"hracing",
-    logging: true,
+    type: "sqlite",
+    database: "database.sqlite",
     synchronize: true,
+    logging: true,
     entities: ["src/models/**/*.ts"],
     migrations: ["src/migrations/**/*.ts"],
     subscribers: ["src/subscriber/**/*.ts"],

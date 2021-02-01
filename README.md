@@ -5,11 +5,13 @@ You can get events or a event by its id. For this you should use the query *even
 
 ```graphql
 query {
-  events {
+  events{
     eventId
     sportId
     startTime
     raceName
+    course
+    description
     going
     length
   }
@@ -21,12 +23,14 @@ query {
   "data": {
     "events": [
       {
-        "eventId": 1000,
+        "eventId": 198884,
         "sportId": 100,
-        "startTime": "2020-05-29T07:25:13.000Z",
-        "raceName": "Newcastle",
-        "going": "Soft",
-        "length": "1m 3f"
+        "startTime": "2021-01-25T08:51:22.000Z",
+        "raceName": "tote PLACEPOT YOUR FIRST BET HANDICAP (6)",
+        "course": "Chelmsford City",
+        "description": "Chelmsford City - tote PLACEPOT YOUR FIRST BET HANDICAP (6) - 1/25/2021, 9:51:22 AM",
+        "going": "Standard",
+        "length": "6f"
       }
     ]
   }
@@ -35,12 +39,14 @@ query {
 
 
 ```graphql
-query ($eventId: Int!) {
-  event(eventId: $eventId) {
+query {
+  event(eventId: 198884){
     eventId
     sportId
     startTime
     raceName
+    course
+    description
     going
     length
   }
@@ -51,12 +57,14 @@ query ($eventId: Int!) {
 {
   "data": {
     "event": {
-      "eventId": 1000,
+      "eventId": 198884,
       "sportId": 100,
-      "startTime": "2020-05-29T07:25:13.000Z",
-      "raceName": "Newcastle",
-      "going": "Soft",
-      "length": "1m 3f"
+      "startTime": "2021-01-25T08:51:22.000Z",
+      "raceName": "tote PLACEPOT YOUR FIRST BET HANDICAP (6)",
+      "course": "Chelmsford City",
+      "description": "Chelmsford City - tote PLACEPOT YOUR FIRST BET HANDICAP (6) - 1/25/2021, 9:51:22 AM",
+      "going": "Standard",
+      "length": "6f"
     }
   }
 }
