@@ -19,7 +19,10 @@ export class EventsResolver {
    */
   @Query(() => [EventType], { nullable: true })
   events(){
-    return this.eventsRepo.all()
+    //Format into "2021-02-03"
+    let date = new Date().toISOString()
+    date = date.substring(0,date.indexOf("T"))
+    return this.eventsRepo.findBy(date)
   }
 
 

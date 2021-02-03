@@ -1,4 +1,4 @@
-import { Event } from "./../models/Event";
+import { Event } from "../models/Event";
 import {Repository, EntityRepository} from "typeorm";
 import { IRepository } from "./IRepository";
 import {ApiGateway} from "./ApiGateway";
@@ -30,30 +30,29 @@ export class EventsRepository extends Repository<Event> implements IRepository<E
     return res != undefined
   }
 
-  findBy(_id: number): Promise<Event[]> {
-    throw new Error("Method not implemented.");
+  async findBy(startTime: string): Promise<Event[]> {
+    const fromDb = await this.find()
+    if (fromDb.length > 0 && fromDb[0].startTime.startsWith(startTime)) {
+      return fromDb
+    }
+
+    const parsedBody = JSON.parse(await this.gateway.getEvents({date: startTime}))
+    let evts = []
+    for (const elem of parsedBody) {
+      let evt = new Event(elem.id_race, 100)
+          .withCourse(elem.course)
+          .withGoing(elem.going)
+          .withRaceName(elem.title)
+          .withLength(elem.distance)
+          .withStartTime(elem.date)
+      evts.push(evt)
+      await this.add(evt)
+    }
+    return evts
   }
   
   async get(eventId: number): Promise<Event | undefined> {
     return await this.findOne({eventId})
   }
 
-  async all(): Promise<Event[]>{
-    const fromDb = await this.find()
-    if (fromDb.length == 0){
-      const resp = await this.gateway.getEvents()
-
-      const parsedBody = JSON.parse(resp)
-      for (const elem of parsedBody) {
-        let evt = new Event(elem.id_race, 100)
-            .withCourse(elem.course)
-            .withGoing(elem.going)
-            .withRaceName(elem.title)
-            .withLength(elem.distance)
-        await this.add(evt)
-      }
-      return await this.find()
-    }
-    return fromDb
-  }
 }
