@@ -1,4 +1,4 @@
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
 export class Event {
@@ -28,6 +28,11 @@ export class Event {
     return this
   }
 
+  withStartTime(startTime: string): this {
+    this.startTime = startTime
+    return this
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -37,8 +42,8 @@ export class Event {
   @Column()
   sportId: number;
 
-  @CreateDateColumn()
-  startTime: Date;
+  @Column()
+  startTime: string;
 
   @Column()
   raceName: string;

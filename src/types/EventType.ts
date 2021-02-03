@@ -5,12 +5,8 @@ import { Event } from "src/models/Event";
 @ObjectType()
 export class EventType {
 
-  constructor(eId: number, sId: number, rn: string, lth: string, cs: string){
+  constructor(eId: number){
     this.eventId = eId
-    this.sportId = sId
-    this.raceName = rn
-    this.course = cs
-    this.length = lth
   }
 
   @Field()
@@ -20,7 +16,7 @@ export class EventType {
   sportId: number;
 
   @Field()
-  startTime: Date;
+  startTime: string;
 
   @Field()
   description: string;
@@ -31,16 +27,20 @@ export class EventType {
   @Field()
   course: string;
 
-  @Field({ nullable: true })
+  @Field()
   going: string;
 
-  @Field({ nullable: true })
+  @Field()
   length: string;
 
 
   static FromModel(data: Event) {
-    let evt = new EventType(data.eventId, data.sportId, data.raceName, data.length, data.course)
-    evt.startTime = new Date()
+    let evt = new EventType(data.eventId)
+    evt.sportId = data.sportId
+    evt.raceName = data.raceName
+    evt.length = data.length
+    evt.course = data.course
+    evt.startTime = data.startTime
     return evt
   }
 
