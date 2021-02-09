@@ -1,0 +1,66 @@
+import {Field, ObjectType} from "type-graphql";
+import {Horse} from "../models/Horse";
+
+@ObjectType()
+export class HorseType {
+
+    @Field()
+    name: string
+
+    @Field()
+    id: number
+
+    @Field()
+    jockey: string
+
+    @Field()
+    trainer: string
+
+    @Field()
+    age: string
+
+    @Field()
+    weight: string
+
+    @Field()
+    number: string
+
+    @Field()
+    lastRanDaysAgo: number
+
+    @Field()
+    nonRunner: boolean
+
+    @Field()
+    form: string
+
+    @Field()
+    position: string
+
+    @Field()
+    odd: string
+
+    @Field()
+    startingPrice: string
+
+    static FromModel(h: Horse) {
+        let horse = new HorseType(h.id)
+        horse.name = h.name
+        horse.jockey = h.jockey
+        horse.trainer = h.trainer
+        horse.age = h.age
+        horse.weight = h.weight
+        horse.number = h.number
+        horse.lastRanDaysAgo = h.lastRanDaysAgo
+        horse.nonRunner = h.nonRunner
+        horse.form = h.form
+        horse.position = h.position
+        horse.odd = h.odd
+        horse.startingPrice = h.startingPrice
+        return horse
+    }
+
+    constructor(id: number) {
+        this.id = id
+    }
+}

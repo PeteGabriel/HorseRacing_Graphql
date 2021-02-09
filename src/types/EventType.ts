@@ -1,5 +1,6 @@
 import { ObjectType, Field} from "type-graphql";
 import { Event } from "src/models/Event";
+import {HorseType} from "./HorseType";
 
 
 @ObjectType()
@@ -32,6 +33,9 @@ export class EventType {
 
   @Field()
   length: string;
+
+  @Field()
+  horses: Array<HorseType>;
 
 
   static FromModel(data: Event) {
