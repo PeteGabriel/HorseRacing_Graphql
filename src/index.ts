@@ -5,6 +5,7 @@ import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import {EventsResolver} from "./queries/EventsResolver";
 import * as dotenv from 'dotenv';
+import {RaceResolver} from "./queries/RaceResolver";
 
 (async () => {
   dotenv.config()
@@ -24,7 +25,7 @@ import * as dotenv from 'dotenv';
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [EventsResolver],
+      resolvers: [EventsResolver, RaceResolver],
       validate: true
     }),
     playground: true,

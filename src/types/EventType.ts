@@ -1,15 +1,19 @@
 import { ObjectType, Field} from "type-graphql";
-import { Event } from "src/models/Event";
-import {HorseType} from "./HorseType";
+import { Event } from "./../models/Event";
 
 
 @ObjectType()
 export class EventType {
 
-  constructor(eId: number){
-    this.eventId = eId
+  constructor(data: Event){
+    this.eventId = data.eventId
+    this.sportId = data.sportId
+    this.raceName = data.raceName
+    this.length = data.length
+    this.course = data.course
+    this.startTime = data.startTime    
   }
-
+  
   @Field()
   eventId: number;
 
@@ -33,20 +37,6 @@ export class EventType {
 
   @Field()
   length: string;
-
-  @Field()
-  horses: Array<HorseType>;
-
-
-  static FromModel(data: Event) {
-    let evt = new EventType(data.eventId)
-    evt.sportId = data.sportId
-    evt.raceName = data.raceName
-    evt.length = data.length
-    evt.course = data.course
-    evt.startTime = data.startTime
-    return evt
-  }
 
   getTimeDescription() {
     return `${this.course} - ${this.raceName} - ${this.startTime.toLocaleString()}`

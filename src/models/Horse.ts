@@ -1,14 +1,15 @@
-import {Column, Entity} from "typeorm";
+import {Column, Entity, ManyToOne, PrimaryColumn} from "typeorm";
+import {Event} from "./Event";
 
 
 @Entity()
 export class Horse {
 
     @Column()
-    name: string
+    horse: string
 
-    @Column()
-    id: number
+    @PrimaryColumn()
+    id_horse: number
 
     @Column()
     jockey: string
@@ -26,10 +27,10 @@ export class Horse {
     number: string
 
     @Column()
-    lastRanDaysAgo: number
+    last_ran_days_ago: number
 
     @Column()
-    nonRunner: boolean
+    non_runner: boolean
 
     @Column()
     form: string
@@ -41,10 +42,13 @@ export class Horse {
     odd: string
 
     @Column()
-    startingPrice: string
+    sp: string
+
+    @ManyToOne(() => Event, event => event.horses)
+    event: Event;
 
 
     constructor(id: number) {
-        this.id = id
+        this.id_horse = id
     }
 }

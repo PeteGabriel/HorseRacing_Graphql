@@ -1,10 +1,9 @@
-import { Query, Resolver, Arg, Int, Root, FieldResolver, Mutation } from "type-graphql";
+import { Query, Resolver, Root, FieldResolver,  } from "type-graphql";
 import {getCustomRepository} from "typeorm";
 import { EventType } from '../types/EventType';
 import { EventsRepository } from "../dal/EventsRepository";
 import { IRepository } from "../dal/IRepository";
 import { Event } from "../models/Event";
-import EventInput from "../types/inputs/EventInput";
 
 @Resolver(EventType)
 export class EventsResolver {
@@ -12,28 +11,18 @@ export class EventsResolver {
   constructor(private eventsRepo: IRepository<Event>) {
     this.eventsRepo = eventsRepo || getCustomRepository(EventsRepository);
   }
- 
 
   /**
    * Query an events.
    */
   @Query(() => [EventType], { nullable: true })
-  events(){
+  async events(){
     //Format into "2021-02-03"
     let date = new Date().toISOString()
     date = date.substring(0,date.indexOf("T"))
-    return this.eventsRepo.findBy(date)
-  }
 
-
-  /**
-   * Query an event by eventID field.
-   * 
-   * @param eventId Id of the event requested.
-   */
-  @Query(() => EventType, { nullable: true })
-  event(@Arg("eventId", _type => Int) eventId: number){
-    return this.eventsRepo.get(eventId)
+    let events: Array<Event> = await this.eventsRepo?.findByStartTime(date)
+    return events.map( (e) => new EventType(e))
   }
 
   /**
@@ -45,24 +34,5 @@ export class EventsResolver {
     return event.getTimeDescription()
   }
 
-  @Mutation(_returns => EventType)
-  async addEvent(@Arg("event") input: EventInput): Promise<EventType> {
-    let evt = new Event(input.eventId, input.sportId)
-      .withRaceName(input.raceName)
-      .withCourse(input.course)
-      .withLength(input.length)
-      .withGoing(input.going)
-    try {
-      await this.eventsRepo.add(evt)
-    }catch(e){
-      throw new Error("Error trying to add new Event")
-    }
-    return EventType.FromModel(evt)
-  }
-
-  @Mutation(_returns => Boolean)
-  async deleteEvent(@Arg("eventId") id: number): Promise<Boolean> {
-    return await this.eventsRepo.deleteBy(id)
-  }
 
 }
