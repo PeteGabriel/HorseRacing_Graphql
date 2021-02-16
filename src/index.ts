@@ -6,6 +6,7 @@ import { buildSchema } from "type-graphql";
 import {EventsResolver} from "./queries/EventsResolver";
 import * as dotenv from 'dotenv';
 import {RaceResolver} from "./queries/RaceResolver";
+import "./dal/config/register";
 
 (async () => {
   dotenv.config()

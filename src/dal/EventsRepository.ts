@@ -1,9 +1,10 @@
 import { Event } from "../models/Event";
-import {Repository, EntityRepository} from "typeorm";
+import {Repository, EntityRepository, getCustomRepository} from "typeorm";
 import { IRepository } from "./IRepository";
 import {ApiGateway} from "./ApiGateway";
 import {Horse} from "../models/Horse";
 import {HorsesRepository} from "./HorsesRepository";
+import { container } from "tsyringe";
 
 
 @EntityRepository(Event)
@@ -14,10 +15,11 @@ export class EventsRepository extends Repository<Event> implements IRepository<E
 
   constructor() {
     super();
+    this.horsesRepo = getCustomRepository(HorsesRepository)
+  }
 
-    //TODO inject this dependency
-    this.gateway = new ApiGateway()
-    this.horsesRepo = new HorsesRepository()
+  initGateway(gateway?: ApiGateway){
+    this.gateway = gateway || container.resolve(ApiGateway)
   }
 
   async deleteBy(eventId: number): Promise<Boolean> {

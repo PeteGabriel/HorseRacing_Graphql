@@ -10,6 +10,7 @@ export class EventsResolver {
   
   constructor(private eventsRepo: IRepository<Event>) {
     this.eventsRepo = eventsRepo || getCustomRepository(EventsRepository);
+    this.eventsRepo.initGateway()
   }
 
   /**

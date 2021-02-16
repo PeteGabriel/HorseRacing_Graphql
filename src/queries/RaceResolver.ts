@@ -6,13 +6,12 @@ import {getCustomRepository} from "typeorm";
 import {EventsRepository} from "../dal/EventsRepository";
 import {HorseType} from "../types/HorseType";
 
-
-
 @Resolver(RaceType)
 export class RaceResolver {
 
     constructor(private eventsRepo: IRepository<Event>) {
         this.eventsRepo = eventsRepo || getCustomRepository(EventsRepository);
+        this.eventsRepo.initGateway()
     }
 
     /**

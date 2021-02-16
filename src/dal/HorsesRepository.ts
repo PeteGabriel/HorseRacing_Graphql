@@ -2,6 +2,7 @@ import {EntityRepository, Repository} from "typeorm";
 import {IRepository} from "./IRepository";
 import {Horse} from "../models/Horse";
 import {ApiGateway} from "./ApiGateway";
+import { container } from "tsyringe";
 
 
 @EntityRepository(Horse)
@@ -9,11 +10,8 @@ export class HorsesRepository extends Repository<Horse> implements IRepository<H
 
     gateway: ApiGateway
 
-    constructor() {
-        super();
-
-        //TODO inject this dependency
-        this.gateway = new ApiGateway()
+    initGateway(gateway?: ApiGateway){
+        this.gateway = gateway || container.resolve(ApiGateway)
     }
 
     add(_: Horse): Promise<boolean> {
