@@ -1,19 +1,25 @@
 import { Event } from "../models/Event";
-import {Repository, EntityRepository} from "typeorm";
+import {Repository, EntityRepository, getCustomRepository} from "typeorm";
 import { IRepository } from "./IRepository";
 import {ApiGateway} from "./ApiGateway";
+import {Horse} from "../models/Horse";
+import {HorsesRepository} from "./HorsesRepository";
+import { container } from "tsyringe";
 
 
 @EntityRepository(Event)
 export class EventsRepository extends Repository<Event> implements IRepository<Event>{
 
   gateway: ApiGateway
+  horsesRepo: IRepository<Horse>
 
   constructor() {
     super();
+    this.horsesRepo = getCustomRepository(HorsesRepository)
+  }
 
-    //TODO inject this dependency
-    this.gateway = new ApiGateway()
+  initGateway(gateway?: ApiGateway){
+    this.gateway = gateway || container.resolve(ApiGateway)
   }
 
   async deleteBy(eventId: number): Promise<Boolean> {
@@ -30,7 +36,7 @@ export class EventsRepository extends Repository<Event> implements IRepository<E
     return res != undefined
   }
 
-  async findBy(startTime: string): Promise<Event[]> {
+  async findByStartTime(startTime: string): Promise<Event[]> {
     const fromDb = await this.find()
     if (fromDb.length > 0 && fromDb[0].startTime.startsWith(startTime)) {
       return fromDb
@@ -50,9 +56,36 @@ export class EventsRepository extends Repository<Event> implements IRepository<E
     }
     return evts
   }
-  
+
+  /**
+   * If there is no horses for a given event, search the web.
+   * Save the new data (assign horses to a given event) and
+   * return that event fulfilled with horses info.
+   *
+   */
   async get(eventId: number): Promise<Event | undefined> {
-    return await this.findOne({eventId})
+
+    let event = await this.findOne({eventId})
+    if (!event) {
+      return undefined
+    }else {
+      if (event.horses && event.horses.length != 0) {
+        return event
+      } else {
+        let race: Event = JSON.parse(await this.gateway.getRace(eventId))
+        //todo map horses to our structure
+
+        event.horses = race.horses
+        await this.save(event) //TODO try with update
+        return event
+      }
+    }
+
   }
+
+  findByEventId(_: number): Promise<Event[]> {
+    return Promise.resolve([]);
+  }
+
 
 }

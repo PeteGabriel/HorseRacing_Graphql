@@ -1,4 +1,5 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Horse} from "./Horse";
 
 @Entity()
 export class Event {
@@ -33,6 +34,11 @@ export class Event {
     return this
   }
 
+  withHorses(horses: Horse[]): this {
+    this.horses = horses
+    return this
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -57,5 +63,7 @@ export class Event {
   @Column()
   length: string;
 
+  @OneToMany(() => Horse, horse => horse.event)
+  horses: Horse[]
 
 }
