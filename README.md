@@ -1,4 +1,4 @@
-horseracing-graphql.herokuapp.com
+[horseracing-graphql.herokuapp.com](horseracing-graphql.herokuapp.com)
 
 This is a project to play around with GraphQL using Typescript. 
 
