@@ -25,9 +25,9 @@ module.exports = [
     autoReconnect: true,
     synchronize: true, // switch this to false once you have the initial tables created and use migrations instead
     logging: true,
-    entities: ["dist/models/**/*.js"],
+    entities: ["dist/src/models/**/*.js"],
     cli: {
-      entitiesDir: "dist/models"
+      entitiesDir: "dist/src/models"
     }
   }
 ];

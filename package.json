@@ -30,7 +30,7 @@
     "build-ts": "tsc",
     "postinstall": "npm run build-ts",
     "start": "npm run serve",
-    "serve": "node dist/index.js",
+    "serve": "ts-node dist/src/index.js",
     "watch-node": "ts-node-dev src/index.ts",
     "watch-ts": "tsc -w",
     "test": "npx jest --watch"

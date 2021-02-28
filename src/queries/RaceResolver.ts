@@ -21,13 +21,16 @@ export class RaceResolver {
      */
     @Query(() => RaceType, { nullable: true })
     async race(@Arg("eventId", _type => Int) eventId: number){
+        console.log("\nRequesting race with ID " + eventId)
         let event: Event = await this.eventsRepo.get(eventId) as Event
+        if (!event) {
+            console.debug("Event with ID " + eventId + " not found.\n")
+        }
         let race = new RaceType(event)
 
         let horses = event?.horses.map((h) => HorseType.FromModel(h))
-        if (event) {
-            race.horses = horses
-        }
+        race.horses = horses
+
         return race
     }
 
