@@ -11,7 +11,8 @@ export class EventType {
     this.raceName = data.raceName
     this.length = data.length
     this.course = data.course
-    this.startTime = data.startTime    
+    this.startTime = data.startTime
+    this.going = data.going
   }
   
   @Field()

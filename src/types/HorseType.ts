@@ -46,7 +46,7 @@ export class HorseType {
     @Field()
     number: string
 
-    @Field()
+    @Field({nullable: true})
     lastRanDaysAgo: number
 
     @Field()

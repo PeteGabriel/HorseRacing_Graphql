@@ -26,7 +26,7 @@ export class Horse {
     @Column()
     number: string
 
-    @Column()
+    @Column({nullable: true})
     last_ran_days_ago: number
 
     @Column()

@@ -35,6 +35,22 @@ query RaceById($eventId: Int!) {
     startTime
     description
     raceName
+    going
+    course
+    length
+    horses {
+      id
+      name
+      jockey
+      trainer
+      age
+      weight
+      number
+      lastRanDaysAgo
+      form
+      startingPrice
+      odd
+    }
   }
 }
 ```
